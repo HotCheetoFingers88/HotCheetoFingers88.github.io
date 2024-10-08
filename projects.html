@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Projects</title>
+    <link href="https://fonts.googleapis.com/css2?family=Baskerville&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Baskerville', serif;
+            margin: 0;
+            padding: 0;
+            background-color: #FCEEF1;
+        }
+
+        header {
+            background-color: #933042;
+            color: #FCEEF1;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        #projects {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .project-card {
+            background: #FEF7FF; /* Light green */
+            border: 1px solid #E0D7E1; /* Medium green */
+            border-radius: 5px;
+            padding: 25px;
+            margin-top: 61px;
+            margin-bottom: 40px;
+            margin-left: 30px;
+            margin-right: 30px;
+            width: 300px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .project-card:hover {
+            transform: scale(1.20); /* Scale up on hover */
+        }
+
+        .project-card h3 {
+            margin-top: 0;
+            color: #CE4760; /* Darker red */
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background-color: #CE4760; /* Light red */
+            color: #FCEEF1;
+            text-decoration: none;
+            border-radius: 3px;
+        }
+
+        .project-link:hover {
+            background-color: #FBDCE2; /* Light pink */
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #933042;
+            color: #FCEEF1;    
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+
+    </style>
+</head>
+<body>
+    <header>
+        <h1>My Projects</h1>
+    </header>
+
+    <main>
+        <section id="projects">
+            <div class="project-card">
+                <h3>Animal Card Slider</h3>
+                <p>Interactive slider showcasing various animals, including the axolotl, pangolin, puffin, sloth, and narwhal. Using CSS for styling and animations alongside jQuery and GSAP for dynamic transitions.</p>
+                <a href="animalCard.html" class="project-link">View Project</a>
+            </div>
+            <div class="project-card">
+                <h3>CSS Cat Walking Animation</h3>
+                <p>
+                    This HTML code makes a nighttime scene of a walking cat against a city skyline. It uses CSS animations for both the cat's movement and a scrolling background of buildings.
+                </p>
+                <a href="cat.html" class="project-link">View Project</a>
+            </div>
+            <div class="project-card">
+                <h3>New York City Issue</h3>
+                <p>Website that uses CSS and HTML to shows a list of places you can visit in New York!</p>
+                <a href="newyork.html" class="project-link">View Project</a>
+            </div>
+            <div class="project-card">
+                <h3>Restaurant</h3>
+                <p>Responsive website for a restaurant, styled using CSS for a clean and modern look and has smooth scrolling  with JavaScript</p>
+                <a href="resturant.html" class="project-link">View Project</a>
+            </div>
+            <div class="project-card">
+                <h3>Fishy Menu</h3>
+                <p>Responsive restaurant menu webpage that showcases various food items and their details, such as descriptions, prices, and allergens. It uses HTML for structure and CSS for styling</p>
+                <a href="fishy.html" class="project-link">View Project</a>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Mehak Sandhu</p>
+    </footer>
+</body>
+</html>

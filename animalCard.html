@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.10.1/gsap.min.js"></script>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.0.0-beta1/css/all.css" >
+
+  
+</head>
+
+  <style>
+    html {
+      height: 100%;
+      width: 100%;
+    }
+
+    *, *:before, *:after {
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+    
+    .slider__navi {
+      position: absolute;
+      top: 50%;
+      right: 20px;
+      transform: translateY(-50%);
+      z-index: 999;
+    }
+
+    .slide-nav {
+      display: block; /* Changed to block to align vertically */
+      width: 20px;
+      height: 20px;
+      margin: 10px auto; /* Adjusted margin for vertical alignment */
+      font-size: 20px;
+       /* Change cursor to star icon */
+      color: rgba(0, 0, 0, 0.2); /* Color for inactive stars */
+    }
+
+    .slide-nav.active {
+      color: rgba(255, 255, 255, 1); /* Color for active star */
+    }
+
+
+    body {
+      position: relative;
+      font-size: 100%;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 400;
+      min-height: 100vh;
+      cursor: url('star.png'), auto;
+    }
+
+    .flex__container {
+      position: absolute;
+      top: 0;
+      left: 0;
+      display: flex;
+      display: -webkit-flex;
+      display: -moz-flex;
+      display: -ms-flex;
+      -webkit-flex-flow: row wrap;
+      -moz-flex-flow: row wrap;
+      -ms-flex-flow: row wrap;
+      -o-flex-flow: row wrap;
+      flex-flow: row wrap; 
+      -webkit-justify-content: flex-start;
+      -moz-justify-content: flex-start;
+      -ms-justify-content: flex-start;
+      -o-justify-content: flex-start;
+      justify-content: flex-start;
+      height: 100vh;
+      width: 100%;
+      z-index: 1;
+    }
+
+    .flex__container.flex--active {
+      z-index: 2;
+    }
+
+    .text--sub {
+      font-size: 12px;
+      letter-spacing: 0.5rem;
+      text-transform: uppercase;
+      margin-bottom: 40px;
+    }
+
+    .text--big {
+      font-family: 'Poppins', sans-serif;
+      font-size: 7.5em;
+      font-weight: 700;
+      line-height: 110px;
+      margin-left: -8px;
+    }
+
+    .text--normal {
+      font-size: 13px;
+      color: rgba(255, 255, 255, 0.8);
+      line-height: 22px;
+      margin-top: 25px;
+    }
+
+    .text__background {
+      font-family: 'Poppins', sans-serif;
+      position: absolute;
+      left: 72px;
+      bottom: -60px;
+      color: rgba(0,0,0,0.05);
+      font-size: 170px;
+      font-weight: 700;
+    }
+
+    .flex__item {
+      height: 100vh;
+      color: #fff;
+      transition: transform 0.1s linear;
+    }
+
+    .flex__item--left {
+      display: flex;
+      display: -webkit-flex;
+      display: -moz-flex;
+      display: -ms-flex;
+      align-items: center;
+      -webkit-align-items: center;
+      -moz-align-items: center;
+      -ms-align-items: center;
+      width: 65%;
+      transform-origin: left bottom;
+      transition: transform 0.1s linear 0.4s;
+      opacity: 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .flex__item--right {
+      width: 35%;
+      transform-origin: right center;
+      transition: transform 0.1s linear 0s;
+      opacity: 0;
+    }
+
+    .flex--preStart .flex__item--left,
+    .flex--preStart .flex__item--right,
+    .flex--active .flex__item--left,
+    .flex--active .flex__item--right {
+      opacity: 1;
+    }
+
+    /* Pangolin */
+
+    .flex--pangolin .flex__item--left {
+      background: #fc701e;
+    }
+
+    .flex--pangolin .flex__item--right {
+      background: #f5d3bf;
+    }
+
+    /* axolotl */
+
+    .flex--axolotl .flex__item--left {
+      background: #B84A62;
+    }
+
+    .flex--axolotl .flex__item--right {
+      background: #CC9FA9;
+    }
+
+    /* Puffin */
+
+    .flex--puffin .flex__item--left {
+      background: #DB8A74;
+    }
+
+    .flex--puffin .flex__item--right {
+      background: #EBCBC2;
+    }
+
+    /* Sloth */
+
+    .flex--sloth .flex__item--left {
+      background: #2E6038;
+    }
+
+    .flex--sloth .flex__item--right {
+      background: #AFD5B7;
+    }
+
+    /* Narwhal */
+
+    .flex--narwhal .flex__item--left {
+      background: #476089;
+    }
+
+    .flex--narwhal .flex__item--right {
+      background: #ade8f7;
+    }
+
+    .flex__content {
+      margin-left: 80px;
+      width: 55%;
+      opacity: 1;
+      transform: translate3d(0,0,0);
+      transition: transform 0.2s linear 0.2s, opacity 0.1s linear 0.2s;
+    }
+
+    /* Original CSS for image placeholders */
+    /* Updated CSS for automatic pulsating effect */
+    .pokemon__img {
+      position: absolute;
+      bottom: 20px;
+      right: 15%;
+      max-height: 40vw;
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
+      transition: opacity 0.43s 0.6s, transform 0.4s 0.65s cubic-bezier(0, 0.88, 0.4, 0.93);
+      animation: pulse 2s infinite ease-in-out alternate;
+    }
+
+    @keyframes pulse {
+      from {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(204, 153, 102, 0.4);
+      }
+      to {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(204, 153, 102, 0);
+      }
+    }
+
+
+
+    /* Animate-START point */
+
+    .flex__container.animate--start .flex__content {
+      transform: translate3d(0,-200%,0);
+      opacity: 0;
+    }
+
+    .flex__container.animate--start .pokemon__img {
+      transform: translate3d(-200px,0,0);
+      opacity: 0;
+    }
+
+    /* Animate-END point */
+
+    .flex__container.animate--end .flex__item--left {
+      transform: scaleY(0);
+    }
+
+    .flex__container.animate--end .flex__item--right {
+      transform: scaleX(0);
+    }
+
+    .flex__container.animate--end .flex__content {
+      transform: translate3d(0,200%,0);
+      opacity: 0;
+    }
+
+    .flex__container.animate--end .pokemon__img {
+      transform: translate3d(200px,0,0);
+      opacity: 0;
+    }
+  </style>
+  
+  <body>
+    <div class="slider__warpper">
+      <div class="flex__container flex--axolotl flex--active" data-slide="1">
+        <div class="flex__item flex__item--left">
+          <div class="flex__content">
+            <p class="text--sub">Ambystoma mexicanum</p>
+            <h1 class="text--big">Axolotl</h1>
+            <p class="text--normal">The axolotl is a paedomorphic salamander closely related to the tiger salamander. It is unusual among amphibians in that it reaches adulthood without undergoing metamorphosis. Instead of taking to the land, adults remain aquatic and gilled. </p>
+          </div>
+          <p class="text__background">Axolotl</p>
+        </div>
+        <div class="flex__item flex__item--right"></div>
+        <img class="pokemon__img" src="https://i.pinimg.com/736x/9b/cc/f5/9bccf5ef502a0e81bfa945bc36442055.jpg" />
+      </div>
+      <div class="flex__container flex--pangolin animate--start" data-slide="2">
+        <div class="flex__item flex__item--left">
+          <div class="flex__content">
+            <p class="text--sub">Pholidota</p>
+            <h1 class="text--big">Pangolin</h1>
+            <p class="text--normal">Pangolins, sometimes known as scaly anteaters, are mammals of the order Pholidota. The one extant family, the Manidae, has three genera: Manis, Phataginus, and Smutsia. Manis comprises four species found in Asia, while Phataginus and Smutsia include two species each, all found in sub-Saharan Africa.</p>
+          </div>
+          <p class="text__background">Pangolin</p>
+        </div>
+        <div class="flex__item flex__item--right"></div>
+        <img class="pokemon__img" src="https://i.pinimg.com/564x/c2/d6/13/c2d61341297af931627b2c2be00d065d.jpg" />
+      </div>
+      <div class="flex__container flex--puffin animate--start" data-slide="3">
+        <div class="flex__item flex__item--left">
+          <div class="flex__content">
+            <p class="text--sub">Fratercula</p>
+            <h1 class="text--big">Puffin</h1>
+            <p class="text--normal">Puffins are any of three species of small alcids in the bird genus Fratercula. These are pelagic seabirds that feed primarily by diving in the water. They breed in large colonies on coastal cliffs or offshore islands, nesting in crevices among rocks or in burrows in the soil.</p>
+          </div>
+          <p class="text__background">Puffin</p>
+        </div>
+        <div class="flex__item flex__item--right"></div>
+        <img class="pokemon__img" src="https://i.pinimg.com/564x/a3/ee/ea/a3eeea9d2342fe545afb51289d10e377.jpg" />
+      </div>
+      <div class="flex__container flex--sloth animate--start" data-slide="4">
+        <div class="flex__item flex__item--left">
+          <div class="flex__content">
+            <p class="text--sub">Folivora</p>
+            <h1 class="text--big">Sloth</h1>
+            <p class="text--normal">Sloths are a Neotropical group of xenarthran mammals constituting the suborder Folivora, including the extant arboreal tree sloths and extinct terrestrial ground sloths. </p>
+          </div>
+          <p class="text__background">Sloth</p>
+        </div>
+        <div class="flex__item flex__item--right"></div>
+        <img class="pokemon__img" src="https://i.pinimg.com/736x/bb/37/9e/bb379e08fbb957b352946f224efab68a.jpg" />
+      </div>
+      <div class="flex__container flex--narwhal animate--start" data-slide="5">
+        <div class="flex__item flex__item--left">
+          <div class="flex__content">
+            <p class="text--sub">Monodon monoceros</p>
+            <h1 class="text--big">Narwhal</h1>
+            <p class="text--normal">The narwhal, is a species of toothed whale, and the only member of the genus Monodon. The most prominent feature of the species is an adult male's long single tusk that can be up to 3 m. The narwhal has a mottled pigmentation, with blackish-brown markings over a white background. </p>
+          </div>
+          <p class="text__background">Narwhal</p>
+        </div>
+        <div class="flex__item flex__item--right"></div>
+        <img class="pokemon__img" src="https://i.pinimg.com/736x/60/42/15/6042150980ad1a3296f53563adf93e85.jpg" />
+      </div>
+    </div>
+
+    <div class="slider__navi">
+      <i class="slide-nav fa-solid fa-star active" data-slide="1"></i>
+      <i class="slide-nav fa-solid fa-star" data-slide="2"></i>
+      <i class="slide-nav fa-solid fa-star" data-slide="3"></i>
+      <i class="slide-nav fa-solid fa-star" data-slide="4"></i>
+      <i class="slide-nav fa-solid fa-star" data-slide="5"></i>
+    </div>
+
+  </body>
+  
+<script>$('.slide-nav').on('click', function(e) {
+  e.preventDefault();
+  // get current slide
+  var current = $('.flex--active').data('slide'),
+    // get button data-slide
+    next = $(this).data('slide');
+
+  $('.slide-nav').removeClass('active');
+  $(this).addClass('active');
+
+  if (current === next) {
+    return false;
+  } else {
+    $('.slider__warpper').find('.flex__container[data-slide=' + next + ']').addClass('flex--preStart');
+    $('.flex--active').addClass('animate--end');
+    setTimeout(function() {
+      $('.flex--preStart').removeClass('animate--start flex--preStart').addClass('flex--active');
+      $('.animate--end').addClass('animate--start').removeClass('animate--end flex--active');
+    }, 800);
+  }
+});</script>
+  
+</html>
